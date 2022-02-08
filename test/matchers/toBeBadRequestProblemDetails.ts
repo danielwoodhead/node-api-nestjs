@@ -2,7 +2,7 @@ import { HttpStatus } from '@nestjs/common';
 import { Response } from 'supertest';
 import { PROBLEM_DETAILS } from '../../src/common/problemDetails';
 
-export const toBeValidationProblemDetails = (received: Response) => {
+export const toBeBadRequestProblemDetails = (received: Response) => {
   if (received.statusCode !== HttpStatus.BAD_REQUEST) {
     return {
       message: () =>

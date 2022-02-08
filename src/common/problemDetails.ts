@@ -41,7 +41,6 @@ export const PROBLEM_JSON_CONTENT_TYPE = 'application/problem+json';
 export const badRequestProblemDetails = (
   e: BadRequestException,
 ): ProblemDetails => {
-  console.log(JSON.stringify(e));
   return {
     type: PROBLEM_DETAILS.BAD_REQUEST.type,
     title: PROBLEM_DETAILS.BAD_REQUEST.title,

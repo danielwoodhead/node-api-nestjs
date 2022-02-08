@@ -46,7 +46,7 @@ describe('items', () => {
   describe('GET /items/{id}', () => {
     it('returns 400 for invalid id', async () => {
       const response = await request(app.getHttpServer()).get('/items/foo');
-      expect(response).toBeValidationProblemDetails();
+      expect(response).toBeBadRequestProblemDetails();
     });
 
     it('returns 500 if error thrown', async () => {

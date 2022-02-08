@@ -3,13 +3,13 @@
 declare global {
   namespace jest {
     interface Matchers<R> {
-      toBeInternalServerErrorProblemDetails(): R;
+      toBeBadRequestProblemDetails(): R;
       toBeNotFoundProblemDetails(): R;
-      toBeValidationProblemDetails(): R;
+      toBeInternalServerErrorProblemDetails(): R;
     }
   }
 }
 
-export { toBeInternalServerErrorProblemDetails } from './toBeInternalServerErrorProblemDetails';
+export { toBeBadRequestProblemDetails } from './toBeBadRequestProblemDetails';
 export { toBeNotFoundProblemDetails } from './toBeNotFoundProblemDetails';
-export { toBeValidationProblemDetails } from './toBeValidationProblemDetails';
+export { toBeInternalServerErrorProblemDetails } from './toBeInternalServerErrorProblemDetails';
