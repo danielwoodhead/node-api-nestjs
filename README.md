@@ -1,6 +1,6 @@
 # node-api-nestjs
 
-An example API written using [NestJS](https://github.com/nestjs/nest) with:
+An example API written using [NestJS](https://nestjs.com/) with:
 
 - docker
 - swagger
