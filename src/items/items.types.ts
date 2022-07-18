@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNumberString } from 'class-validator';
+import { IsNumber, IsNumberString, IsString, IsUrl } from 'class-validator';
 
 export class Item {
   @ApiProperty()
@@ -26,4 +26,22 @@ export class FindOneParams {
   @ApiProperty()
   @IsNumberString()
   id: number;
+}
+
+export class CreateItemRequest {
+  @ApiProperty()
+  @IsString()
+  name: string;
+
+  @ApiProperty()
+  @IsNumber()
+  price: number;
+
+  @ApiProperty()
+  @IsString()
+  description: string;
+
+  @ApiProperty()
+  @IsUrl()
+  image: string;
 }

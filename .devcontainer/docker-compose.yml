@@ -1,0 +1,24 @@
+version: "3.9"
+services:
+  app:
+    build:
+      context: .
+      dockerfile: dev.Dockerfile
+      args:
+        VARIANT: 16-buster
+    volumes:
+      - ..:/workspace:cached
+    command: sleep infinity
+  db:
+    build:
+      context: .
+      dockerfile: db.Dockerfile
+    environment:
+      - SA_PASSWORD=P@ssword
+      - ACCEPT_EULA=Y
+    ports:
+      - 1433:1433
+    volumes:
+      - ./.db:/var/opt/mssql/data
+      - ./.db:/var/opt/mssql/log
+      - ./.db:/var/opt/mssql/secrets

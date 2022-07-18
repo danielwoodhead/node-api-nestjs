@@ -1,32 +1,35 @@
 import { Injectable } from '@nestjs/common';
-import { Item, Items } from './items.types';
+import { PrismaService } from '../prisma/prisma.service';
+import { CreateItemRequest, Item } from './items.types';
 
 @Injectable()
 export class ItemsService {
-  items: Items = {
-    1: {
-      id: 1,
-      name: 'Burger',
-      price: 599,
-      description: 'Tasty',
-      image: 'https://cdn.auth0.com/blog/whatabyte/burger-sm.png',
-    },
-    2: {
-      id: 2,
-      name: 'Pizza',
-      price: 299,
-      description: 'Cheesy',
-      image: 'https://cdn.auth0.com/blog/whatabyte/pizza-sm.png',
-    },
-    3: {
-      id: 3,
-      name: 'Tea',
-      price: 199,
-      description: 'Informative',
-      image: 'https://cdn.auth0.com/blog/whatabyte/tea-sm.png',
-    },
-  };
+  constructor(private readonly prismaService: PrismaService) {}
+
   async getItem(id: number): Promise<Item> {
-    return this.items[id];
+    return this.prismaService.item.findUnique({
+      where: {
+        id: +id,
+      },
+    });
+  }
+
+  async createItem(request: CreateItemRequest): Promise<Item> {
+    return this.prismaService.item.create({
+      data: {
+        name: request.name,
+        price: request.price,
+        description: request.description,
+        image: request.image,
+      },
+    });
+  }
+
+  async deleteItem(id: number): Promise<Item> {
+    return this.prismaService.item.delete({
+      where: {
+        id: +id,
+      },
+    });
   }
 }
