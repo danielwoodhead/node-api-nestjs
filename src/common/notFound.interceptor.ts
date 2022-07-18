@@ -17,7 +17,7 @@ export class NotFoundInterceptor implements NestInterceptor {
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
     return next.handle().pipe(
       tap((data) => {
-        if (data === undefined) {
+        if (data === undefined || data === null) {
           const response = context.switchToHttp().getResponse<Response>();
           response
             .status(HttpStatus.NOT_FOUND)

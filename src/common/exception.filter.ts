@@ -4,6 +4,7 @@ import {
   ExceptionFilter,
   HttpException,
   HttpStatus,
+  Logger,
 } from '@nestjs/common';
 import {
   internalServerErrorProblemDetails,
@@ -14,6 +15,8 @@ import {
 
 @Catch()
 export class AllExceptionsFilter implements ExceptionFilter {
+  private readonly logger = new Logger(AllExceptionsFilter.name);
+
   getResponseBody(status: number, err: any) {
     switch (status) {
       case HttpStatus.BAD_REQUEST:
@@ -27,6 +30,7 @@ export class AllExceptionsFilter implements ExceptionFilter {
   }
 
   catch(exception: unknown, host: ArgumentsHost): void {
+    this.logger.error(exception);
     const ctx = host.switchToHttp();
     const response = ctx.getResponse();
     const httpStatus =

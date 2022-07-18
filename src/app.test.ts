@@ -1,17 +1,21 @@
 import * as request from 'supertest';
 import { INestApplication } from '@nestjs/common';
-import { Test } from '@nestjs/testing';
+import { Test, TestingModule } from '@nestjs/testing';
 import { EmptyLogger } from '../test/nestjs/emptyLogger';
 import { AppModule } from './app.module';
 import { initialise } from './init';
+import { PrismaService } from './prisma/prisma.service';
 
 describe('app', () => {
   let app: INestApplication;
 
   beforeAll(async () => {
-    const moduleRef = await Test.createTestingModule({
+    const moduleRef: TestingModule = await Test.createTestingModule({
       imports: [AppModule],
-    }).compile();
+    })
+      .overrideProvider(PrismaService)
+      .useValue({})
+      .compile();
 
     app = moduleRef.createNestApplication();
     app.useLogger(new EmptyLogger());

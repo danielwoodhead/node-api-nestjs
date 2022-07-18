@@ -1,11 +1,11 @@
-import * as request from 'supertest';
-import { Test } from '@nestjs/testing';
 import { HttpStatus, INestApplication } from '@nestjs/common';
+import { Test, TestingModule } from '@nestjs/testing';
+import * as request from 'supertest';
 import * as matchers from '../../test/matchers';
 import { EmptyLogger } from '../../test/nestjs/emptyLogger';
-import { ItemsService } from './items.service';
-import { ItemsModule } from './items.module';
 import { initialise } from '../init';
+import { PrismaService } from '../prisma/prisma.service';
+import { ItemsModule } from './items.module';
 
 expect.extend(matchers);
 
@@ -19,14 +19,16 @@ const item = {
 
 describe('items', () => {
   let app: INestApplication;
-  const mockItemsService = { getItem: jest.fn(() => Promise.resolve(item)) };
+  const mockPrismaService = {
+    item: { findUnique: jest.fn(() => Promise.resolve(item)) },
+  };
 
   beforeAll(async () => {
-    const moduleRef = await Test.createTestingModule({
+    const moduleRef: TestingModule = await Test.createTestingModule({
       imports: [ItemsModule],
     })
-      .overrideProvider(ItemsService)
-      .useValue(mockItemsService)
+      .overrideProvider(PrismaService)
+      .useValue(mockPrismaService)
       .compile();
 
     app = moduleRef.createNestApplication();
@@ -50,22 +52,65 @@ describe('items', () => {
     });
 
     it('returns 500 if error thrown', async () => {
-      mockItemsService.getItem.mockRejectedValueOnce(new Error('error'));
+      mockPrismaService.item.findUnique.mockRejectedValueOnce(
+        new Error('error'),
+      );
       const response = await request(app.getHttpServer()).get('/items/1');
       expect(response).toBeInternalServerErrorProblemDetails();
     });
 
     it('returns 404 if item not found', async () => {
-      mockItemsService.getItem.mockResolvedValueOnce(undefined);
+      mockPrismaService.item.findUnique.mockResolvedValueOnce(undefined);
       const response = await request(app.getHttpServer()).get('/items/1');
       expect(response).toBeNotFoundProblemDetails();
     });
 
     it('returns 200', async () => {
-      mockItemsService.getItem.mockResolvedValueOnce(item);
+      mockPrismaService.item.findUnique.mockResolvedValueOnce(item);
       const response = await request(app.getHttpServer()).get('/items/1');
       expect(response.statusCode).toEqual(HttpStatus.OK);
       expect(response.body).toMatchObject(item);
+    });
+  });
+
+  describe('POST /items', () => {
+    const newItem = {
+      name: 'Burger',
+      price: 599,
+      description: 'Tasty',
+      image: 'https://cdn.auth0.com/blog/whatabyte/burger-sm.png',
+    };
+
+    it('returns 400 for missing name', async () => {
+      const { name: _, ...itemWithoutName } = newItem;
+      const response = await request(app.getHttpServer())
+        .post('/items')
+        .send(itemWithoutName);
+      expect(response.statusCode).toEqual(HttpStatus.BAD_REQUEST);
+    });
+
+    it('returns 400 for missing price', async () => {
+      const { price: _, ...itemWithoutPrice } = newItem;
+      const response = await request(app.getHttpServer())
+        .post('/items')
+        .send(itemWithoutPrice);
+      expect(response.statusCode).toEqual(HttpStatus.BAD_REQUEST);
+    });
+
+    it('returns 400 for missing description', async () => {
+      const { description: _, ...itemWithoutDescription } = newItem;
+      const response = await request(app.getHttpServer())
+        .post('/items')
+        .send(itemWithoutDescription);
+      expect(response.statusCode).toEqual(HttpStatus.BAD_REQUEST);
+    });
+
+    it('returns 400 for missing image', async () => {
+      const { image: _, ...itemWithoutImage } = newItem;
+      const response = await request(app.getHttpServer())
+        .post('/items')
+        .send(itemWithoutImage);
+      expect(response.statusCode).toEqual(HttpStatus.BAD_REQUEST);
     });
   });
 });

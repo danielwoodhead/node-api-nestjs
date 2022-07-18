@@ -2,5 +2,7 @@ version: "3.9"
 services:
   api:
     build: .
+    environment:
+      DATABASE_URL: "sqlserver://host.docker.internal:1433;database=Items;user=sa;password=P@ssword;encrypt=true;trustServerCertificate=true"
     ports:
       - "3000:3000"
