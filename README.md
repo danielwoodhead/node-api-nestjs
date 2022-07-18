@@ -55,8 +55,8 @@ Navigate to [localhost:3000/swagger]() to view the swagger
 
 The dev container includes a SQL Server container and the SQL Server VS Code extension. Select the SQL Server option in the left-hand bar in VS Code and use it to connect to the database using these options:
 
-Server name: db
-Database name: {leave blank}
-Authentication type: SQL Login
-User name: sa
-Password: P@ssword
+- Server name: db
+- Database name: {leave blank}
+- Authentication type: SQL Login
+- User name: sa
+- Password: P@ssword
