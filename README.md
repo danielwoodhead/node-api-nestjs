@@ -46,8 +46,8 @@ npm test
 Run the application:
 
 ```
-docker-compose build
-docker-compose up
+docker compose build
+docker compose up
 ```
 
 Navigate to [localhost:3000/swagger]() to view the swagger
