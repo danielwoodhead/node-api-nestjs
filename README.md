@@ -2,6 +2,7 @@
 
 An example API written using [NestJS](https://nestjs.com/) with:
 
+- Dev container
 - SQL database using [Prisma](https://www.prisma.io/)
 - Docker
 - Swagger
@@ -9,20 +10,20 @@ An example API written using [NestJS](https://nestjs.com/) with:
 
 ## Dev Container
 
-The repo has a [dev container](https://containers.dev/) which provides a fully-featured development environment including:
+This repo includes a [dev container](https://containers.dev/) which provides a fully-featured development environment including:
 
 - Node.js
 - SQL server
 - Docker
 - VS Code extensions: SQL Server, Prisma, ES Lint
 
-## Prerequisites
+## Getting started
+
+### Prerequisites
 
 - [Docker](https://www.docker.com/products/docker-desktop/)
 - [VS Code](https://code.visualstudio.com/)
 - [Remote - Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
-
-## Getting started
 
 Open the code in the dev container:
 
@@ -32,19 +33,19 @@ Open the code in the dev container:
 
 Install dependencies:
 
-```bash
+```
 npm install
 ```
 
 Run the tests:
 
-```bash
-npm run test
+```
+npm test
 ```
 
 Run the application:
 
-```bash
+```
 docker-compose build
 docker-compose up
 ```
