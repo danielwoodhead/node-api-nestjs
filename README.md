@@ -15,7 +15,7 @@ This repo includes a [dev container](https://containers.dev/) which provides a f
 - Node.js
 - SQL server
 - Docker
-- VS Code extensions: SQL Server, Prisma, ES Lint
+- VS Code extensions: SQL Server, Prisma, ES Lint, Prettier
 
 ## Getting started
 

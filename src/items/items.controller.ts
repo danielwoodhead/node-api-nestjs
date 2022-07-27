@@ -8,9 +8,12 @@ import {
   Post,
   UseInterceptors,
 } from '@nestjs/common';
-import { ApiResponse, ApiTags, getSchemaPath } from '@nestjs/swagger';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  BadRequestApiResponse,
+  NotFoundApiResponse,
+} from '../common/apiResponse';
 import { NotFoundInterceptor } from '../common/notFound.interceptor';
-import { ProblemDetails } from '../common/problemDetails';
 import { ItemsService } from './items.service';
 import { CreateItemRequest, FindOneParams, Item } from './items.types';
 
@@ -20,22 +23,8 @@ export class ItemsController {
   constructor(private readonly itemsService: ItemsService) {}
 
   @ApiResponse({ status: HttpStatus.OK, type: Item })
-  @ApiResponse({
-    status: HttpStatus.BAD_REQUEST,
-    content: {
-      'application/problem+json': {
-        schema: { $ref: getSchemaPath(ProblemDetails) },
-      },
-    },
-  })
-  @ApiResponse({
-    status: HttpStatus.NOT_FOUND,
-    content: {
-      'application/problem+json': {
-        schema: { $ref: getSchemaPath(ProblemDetails) },
-      },
-    },
-  })
+  @BadRequestApiResponse()
+  @NotFoundApiResponse()
   @UseInterceptors(NotFoundInterceptor)
   @Get(':id')
   getItem(@Param() params: FindOneParams): Promise<Item> {
@@ -43,14 +32,7 @@ export class ItemsController {
   }
 
   @ApiResponse({ status: HttpStatus.CREATED, type: Item })
-  @ApiResponse({
-    status: HttpStatus.BAD_REQUEST,
-    content: {
-      'application/problem+json': {
-        schema: { $ref: getSchemaPath(ProblemDetails) },
-      },
-    },
-  })
+  @BadRequestApiResponse()
   @Post()
   createItem(@Body() request: CreateItemRequest): Promise<Item> {
     return this.itemsService.createItem(request);

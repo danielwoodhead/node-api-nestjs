@@ -21,7 +21,7 @@ export class ProblemDetails {
 export const PROBLEM_DETAILS = {
   BAD_REQUEST: {
     type: 'https://datatracker.ietf.org/doc/html/rfc7231#section-6.5.1',
-    title: 'Baf Request',
+    title: 'Bad Request',
     status: HttpStatus.BAD_REQUEST,
   },
   NOT_FOUND: {
