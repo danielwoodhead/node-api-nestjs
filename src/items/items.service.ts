@@ -1,35 +1,23 @@
-import { Injectable } from '@nestjs/common';
-import { PrismaService } from '../prisma/prisma.service';
+import { Inject, Injectable } from '@nestjs/common';
+import { IItemsRepository } from './items.repository';
 import { CreateItemRequest, Item } from './items.types';
 
 @Injectable()
 export class ItemsService {
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(
+    @Inject('IItemsRepository')
+    private readonly itemsRepository: IItemsRepository,
+  ) {}
 
   async getItem(id: number): Promise<Item> {
-    return this.prismaService.item.findUnique({
-      where: {
-        id: +id,
-      },
-    });
+    return this.itemsRepository.getItem(id);
   }
 
   async createItem(request: CreateItemRequest): Promise<Item> {
-    return this.prismaService.item.create({
-      data: {
-        name: request.name,
-        price: request.price,
-        description: request.description,
-        image: request.image,
-      },
-    });
+    return this.itemsRepository.createItem(request);
   }
 
-  async deleteItem(id: number): Promise<Item> {
-    return this.prismaService.item.delete({
-      where: {
-        id: +id,
-      },
-    });
+  async deleteItem(id: number): Promise<void> {
+    await this.itemsRepository.deleteItem(id);
   }
 }
