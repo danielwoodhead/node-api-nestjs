@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  HttpCode,
   HttpStatus,
   Param,
   Post,
@@ -27,19 +28,23 @@ export class ItemsController {
   @NotFoundApiResponse()
   @UseInterceptors(NotFoundInterceptor)
   @Get(':id')
-  getItem(@Param() params: FindOneParams): Promise<Item> {
+  async getItem(@Param() params: FindOneParams): Promise<Item> {
     return this.itemsService.getItem(params.id);
   }
 
   @ApiResponse({ status: HttpStatus.CREATED, type: Item })
   @BadRequestApiResponse()
   @Post()
-  createItem(@Body() request: CreateItemRequest): Promise<Item> {
+  async createItem(@Body() request: CreateItemRequest): Promise<Item> {
     return this.itemsService.createItem(request);
   }
 
+  @ApiResponse({ status: HttpStatus.NO_CONTENT })
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @BadRequestApiResponse()
+  @NotFoundApiResponse()
   @Delete(':id')
-  deleteItem(@Param() params: FindOneParams): Promise<Item> {
-    return this.itemsService.deleteItem(params.id);
+  async deleteItem(@Param() params: FindOneParams): Promise<void> {
+    await this.itemsService.deleteItem(params.id);
   }
 }

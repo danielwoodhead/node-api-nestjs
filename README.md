@@ -6,6 +6,7 @@ An example API written using [NestJS](https://nestjs.com/) with:
 - SQL database using [Prisma](https://www.prisma.io/)
 - Docker
 - Swagger
+- Clean architecture
 - [RFC 7807](https://datatracker.ietf.org/doc/html/rfc7807)-compliant errors
 
 ## Dev Container
@@ -29,7 +30,7 @@ Open the code in the dev container:
 
 1. Ensure Docker is running
 2. Clone the repo and open it in VS Code
-3. Use the Remote Containers "Reopen in Container" command
+3. Select "Reopen in Container" when prompted
 
 Install dependencies:
 
