@@ -20,7 +20,7 @@
     "prisma:generate": "prisma generate"
   },
   "dependencies": {
-    "@nestjs/common": "^9.1.4",
+    "@nestjs/common": "^9.1.6",
     "@nestjs/core": "^9.1.4",
     "@nestjs/platform-express": "^9.1.6",
     "@nestjs/swagger": "^6.1.3",
