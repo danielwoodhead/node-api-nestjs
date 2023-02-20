@@ -1,11 +1,11 @@
-FROM node:16.18.1-alpine3.16 AS build
+FROM node:16.19.1-alpine3.16 AS build
 WORKDIR /usr/src/app
 COPY package*.json ./
 RUN npm ci
 COPY . .
 RUN npm run prisma:generate && npm run lint && npm test && npm run build
 
-FROM node:16.18.1-alpine3.16
+FROM node:16.19.1-alpine3.16
 ENV NODE_ENV=production
 WORKDIR /usr/src/app
 COPY package*.json ./
